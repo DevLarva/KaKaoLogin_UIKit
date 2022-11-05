@@ -91,12 +91,15 @@ class ViewController: UIViewController {
 //MARK: - 뷰모델 바인딩
 extension ViewController {
     fileprivate func setBindings() {
-        self.kakaoAuthVM.$isLoggedIn.sink { [weak self] isLoggedIn in
-            guard let self = self else { return }
-            self.kakaoLoginStatusLabel.text = isLoggedIn ? "로그인 상태" :
-            "로그아웃 상태"
-        }
-        .store(in: &subscriptions)
+//        self.kakaoAuthVM.$isLoggedIn.sink { [weak self] isLoggedIn in
+//            guard let self = self else { return }
+//            self.kakaoLoginStatusLabel.text = isLoggedIn ? "로그인 상태" : "로그아웃 상태"
+//        }
+//        .store(in: &subscriptions)
+        self.kakaoAuthVM.loginStatusInfo
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.text,on: self.kakaoLoginStatusLabel)
+            .store(in: &subscriptions)
     }
 }
 

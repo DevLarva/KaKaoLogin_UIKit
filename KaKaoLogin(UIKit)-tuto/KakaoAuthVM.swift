@@ -14,6 +14,8 @@ class KaKaoAuthVM: ObservableObject {
     var subscription = Set<AnyCancellable>()
     @Published var isLoggedIn : Bool = false
     
+    lazy var loginStatusInfo : AnyPublisher<String?, Never> =
+    $isLoggedIn.compactMap{ $0 ? "로그인 상태" : "로그아웃 상태"}.eraseToAnyPublisher()
     
     init() {
         print("kakaoAuthVM init() called")
