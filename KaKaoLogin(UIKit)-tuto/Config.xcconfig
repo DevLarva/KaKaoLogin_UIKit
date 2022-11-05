@@ -8,4 +8,4 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-KAKAO_NATIVE_APP_KEY = 40c7663bb2cbb46289acd1624742baa3
+KAKAO_NATIVE_APP_KEY = 40c7663bb2cbb46289acd1624742baa3s

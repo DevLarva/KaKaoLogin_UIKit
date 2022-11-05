@@ -7,8 +7,11 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 class ViewController: UIViewController {
+    var subscriptions = Set<AnyCancellable>()
+    
     
     lazy var kakaoLoginStatusLabel: UILabel = {
         let label = UILabel()
@@ -68,19 +71,35 @@ class ViewController: UIViewController {
             
             make.center.equalTo(self.view)
         }
+        
+        setBindings()
     }
     
     
     //MARK: -버튼액션
     @objc func loginBtnClicked() {
         print("LoginBtnClicked() called")
-        kakaoAuthVM.handleKaKaoLogin()
+        kakaoAuthVM.kakaoLogin()
     }
     @objc func logoutBtnClicked() {
         print("logoutBtnClicked() called")
+        kakaoAuthVM.kakoLogout()
     }
 
 } //ViewController
+
+//MARK: - 뷰모델 바인딩
+extension ViewController {
+    fileprivate func setBindings() {
+        self.kakaoAuthVM.$isLoggedIn.sink { [weak self] isLoggedIn in
+            guard let self = self else { return }
+            self.kakaoLoginStatusLabel.text = isLoggedIn ? "로그인 상태" :
+            "로그아웃 상태"
+        }
+        .store(in: &subscriptions)
+    }
+}
+
 
 #if DEBUG
 
